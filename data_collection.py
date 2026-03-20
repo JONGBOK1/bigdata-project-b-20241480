@@ -15,7 +15,7 @@ url = "http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDn
 # 2. 요청 파라미터 설정
 # ============================================================ 
 params = { 
-"serviceKey": API_KEY,"https://apis.data.go.kr/B552584/ArpltnInforInqireSvc"     
+"serviceKey": API_KEY,       
 # 인증키 
 "returnType": "json",        
 "numOfRows": "100",          
