@@ -17,7 +17,7 @@ streamlit run app.py
 ## 폴더 구조
 ```
 final_project/
-app.py                  # 진입점 (st.navigation) → 제목/이름만 바꾸면 됨
+app.py                  
 pages/
   1_EDA.py              # 1차 작업: 요약·결측·분포
   2_시각화.py            # 2차 작업: Plotly 그래프 + 해석
