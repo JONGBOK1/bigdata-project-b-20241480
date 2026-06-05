@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report, accuracy_score
+from sklearn.metrics import classification_report, accuracy_score, balanced_accuracy_score
 import plotly.express as px
 import sys
 from pathlib import Path
@@ -24,19 +24,22 @@ def train_model():
     )
     clf = RandomForestClassifier(n_estimators=100, random_state=42, n_jobs=-1)
     clf.fit(X_tr, y_tr)
-    acc = accuracy_score(y_te, clf.predict(X_te))
-    report = classification_report(y_te, clf.predict(X_te),
+    y_pred = clf.predict(X_te)
+    acc = accuracy_score(y_te, y_pred)
+    bal_acc = balanced_accuracy_score(y_te, y_pred)
+    report = classification_report(y_te, y_pred,
                                    target_names=["중퇴", "졸업"], output_dict=True)
-    return clf, acc, report, X_tr.columns.tolist()
+    return clf, acc, bal_acc, report, X_tr.columns.tolist()
 
-clf, acc, report, feature_cols = train_model()
+clf, acc, bal_acc, report, feature_cols = train_model()
 
 # ── 모델 성능 요약 ───────────────────────────────────────────────
 st.header("1. 모델 성능 (테스트셋)")
-col1, col2, col3 = st.columns(3)
+col1, col2, col3, col4 = st.columns(4)
 col1.metric("정확도", f"{acc*100:.1f}%")
-col2.metric("중퇴 F1-score", f"{report['중퇴']['f1-score']*100:.1f}%")
-col3.metric("졸업 F1-score", f"{report['졸업']['f1-score']*100:.1f}%")
+col2.metric("균형 정확도", f"{bal_acc*100:.1f}%")
+col3.metric("중퇴 F1-score", f"{report['중퇴']['f1-score']*100:.1f}%")
+col4.metric("졸업 F1-score", f"{report['졸업']['f1-score']*100:.1f}%")
 
 # 특성 중요도
 st.subheader("특성 중요도 (상위 10)")
